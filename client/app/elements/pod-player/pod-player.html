@@ -1,0 +1,152 @@
+
+<dom-module id="pod-player">
+  <style>
+    :host {
+      display: block;
+    }
+/*
+	# ----- Script info:
+	- Author: Michael Mammoliti
+	- Name: jAudio.js
+	- Version: 0.2.1
+	- js dipendencies: jQuery
+	- Release date: 25 November 2015
+	- GitHub: https://github.com/MichaelMammoliti/jAudio.js
+
+	# ----- Contact info
+	- GitHub: https://github.com/MichaelMammoliti
+	- Mail: mammoliti.michael@gmail.com
+	- Twitter: @MichMammoliti
+
+	# ----- License Info
+	- Released under the GPL v3 license.
+*/
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:100,400,300,600,700);*{padding:0;margin:0;box-sizing:border-box;font-family:'Roboto', sans-serif;font-weight:300;color:#888;outline:0}li{float:left;list-style:none}html{font-size:100%;font-size:14px}body{font-size:1rem}html{background:#383B44}.jAudio--player{display:table;overflow:hidden;background:#fff;box-shadow:0 0 5px rgba(0,0,0,.8);margin:100px auto;width:75%}.jAudio--player:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--ui{position:relative;width:100%}.jAudio--player .jAudio--status-bar{width:100%;z-index:1;position:relative;padding:100px 2rem 2rem;display:table}.jAudio--player .jAudio--status-bar:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--controls{width:100%;display:table;background:#fafafa}.jAudio--player .jAudio--controls:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--controls ul{display:table;overflow:hidden;width:100%}.jAudio--player .jAudio--controls ul:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--controls li{position:relative;width:33.3333%;height:5rem;line-height:5rem}.jAudio--player .jAudio--thumb{position:absolute;top:0;left:0;height:100%;width:100%;background-size:cover;background-position:center center}.jAudio--player .jAudio--time{display:table;width:100%}.jAudio--player .jAudio--time:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--time *{width:50%;display:block;float:left;color:#fff;text-shadow:0 1px 1px #000;font-size:.9rem}.jAudio--player .jAudio--time .jAudio--time-elapsed{text-align:left}.jAudio--player .jAudio--time .jAudio--time-total{text-align:right}.jAudio--player .jAudio--details *{color:#fff;text-shadow:0 1px 1px #000;font-size:1.2rem}.jAudio--player .jAudio--details :first-of-type{font-weight:700}.jAudio--player .jAudio--details p{width:100%}.jAudio--player .jAudio--details p span{display:block}.jAudio--player .jAudio--progress-bar{margin:1.33333rem 0}.jAudio--player .jAudio--progress-bar .jAudio--progress-bar-wrapper{width:100%;position:relative;background:rgba(255,255,255,.3);cursor:pointer;border-radius:10px;overflow:hidden}.jAudio--player .jAudio--progress-bar .jAudio--progress-bar-played{height:10px;background:#888;position:relative;border-radius:10px}.jAudio--player .jAudio--progress-bar .jAudio--progress-bar-pointer{height:10px;width:10px;border-radius:50%;position:absolute;right:0;background:#fff}.jAudio--player .jAudio--playlist{background:#fff}.jAudio--player .jAudio--playlist .jAudio--playlist-item{width:100%;padding:1.33333rem 2rem;display:table}.jAudio--player .jAudio--playlist .jAudio--playlist-item:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--playlist .jAudio--playlist-item.active{background:#888;border-bottom-color:#f55c5c}.jAudio--player .jAudio--playlist .jAudio--playlist-item.active *{color:#fff}.jAudio--player .jAudio--playlist .jAudio--playlist-item:not(.active):hover{background:#fafafa}.jAudio--player .jAudio--playlist .jAudio--playlist-item:last-of-type{border:0;margin-bottom:0}.jAudio--player .jAudio--playlist .jAudio--playlist-thumb{float:left;margin-right:.66667rem;display:table}.jAudio--player .jAudio--playlist .jAudio--playlist-thumb:after{content:" ";display:block;width:100%;clear:both}.jAudio--player .jAudio--playlist .jAudio--playlist-thumb img{height:2.4rem;width:2.4rem;border-radius:50%;float:left;margin-right:.5rem}.jAudio--player .jAudio--playlist .jAudio--playlist-meta-text h4{font-size:1rem;color:#000}.jAudio--player .jAudio--playlist .jAudio--playlist-meta-text p{font-size:.8rem}.btn{overflow:hidden;position:absolute;top:0;left:0;width:100%;height:100%;background:0 0;border:0}.btn span{position:absolute;display:table;height:15px;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);overflow:hidden}.btn span:after,.btn span:before{display:block;content:" ";height:0;float:left;border-color:transparent;border-style:solid}.btn:active{background:#f5f5f5}#btn-next span:after,#btn-next span:before,#btn-play span:after,#btn-play span:before,#btn-prev span:after,#btn-prev span:before{border-top:7.5px solid transparent;border-bottom:7.5px solid transparent}#btn-prev span:after,#btn-prev span:before{border-right:15px solid #ddd;border-left:0}#btn-prev:active span:after,#btn-prev:active span:before{border-right-color:#888!important}#btn-next span:after,#btn-next span:before{border-left:15px solid #ddd;border-right:0}#btn-next:active span:after,#btn-next:active span:before{border-left-color:#888!important}#btn-play span:before{border-left:15px solid #ddd;border-right:0}#btn-play span:after{display:none}#btn-play.active span:before,#btn-play:active span:before{border-left-color:#888!important}#btn-pause span:after,#btn-pause span:before{width:5px;height:15px;background:#888;border:0}#btn-pause span:before{margin-right:5px}#btn-pause span.active:after,#btn-pause span.active:before,#btn-pause span:active:after,#btn-pause span:active:before{background:#fff;margin-right:5px}.jAudio--player .jAudio--controls li button span:after,.jAudio--player .jAudio--controls li button span:before{-webkit-transition:border-color .3s ease 0s;transition:border-color .3s ease 0s}.jAudio--player .jAudio--thumb{-webkit-transition:all .5s ease 0s;transition:all .5s ease 0s}.jAudio--player .jAudio--progress-bar .jAudio--progress-bar-played{-webkit-transition:all .2s ease 0s;transition:all .2s ease 0s}.jAudio--player .jAudio--playlist .jAudio--playlist-item{-webkit-transition:all .5s ease 0s;transition:all .5s ease 0s}.jAudio--player .jAudio--playlist .jAudio--playlist-item *{-webkit-transition:all .3s ease 0s;transition:all .3s ease 0s}
+  </style>
+  <template>
+    <!--<ul>-->
+      <!--<template is="dom-repeat" items="{{items}}">-->
+        <!--<li><span class="paper-font-body1">{{item}}</span></li>-->
+      <!--</template>-->
+    <!--</ul>-->
+
+     <!--
+      # ----- Script info:
+      - Author: Michael Mammoliti
+      - Name: jAudio.js
+      - Version: 0.2.1
+      - js dipendencies: jQuery
+      - Release date: 25 November 2015
+      - GitHub: https://github.com/MichaelMammoliti/jAudio.js
+
+      # ----- Contact info
+      - GitHub: https://github.com/MichaelMammoliti
+      - Mail: mammoliti.michael@gmail.com
+      - Twitter: @MichMammoliti
+
+      # ----- License Info
+      - Released under the GPL v3 license.
+    -->
+
+    <div class='jAudio--player' id='player'>
+
+        <audio></audio>
+
+        <div class='jAudio--ui'>
+
+            <div class='jAudio--thumb'></div>
+
+            <div class='jAudio--status-bar'>
+
+                <!--<div class='jAudio--volume-bar'></div>-->
+
+                <div class='jAudio--progress-bar'>
+                    <div class='jAudio--progress-bar-wrapper'>
+                        <div class='jAudio--progress-bar-played'>
+                            <span class='jAudio--progress-bar-pointer'></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='jAudio--time'>
+                    <span class='jAudio--time-elapsed'>00:00</span>
+                    <span class='jAudio--time-total'>00:00</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!--<div class='jAudio--playlist'>-->
+        <!--</div>-->
+
+        <div class='jAudio--controls'>
+            <ul>
+                <li><button class='btn' data-action='prev' id='btn-prev'><span></span></button></li>
+                <li><button class='btn' data-action='play' id='btn-play'><span></span></button></li>
+                <li><button class='btn' data-action='next' id='btn-next'><span></span></button></li>
+            </ul>
+        </div>
+
+    </div>
+
+
+  </template>
+</dom-module>
+<script>
+  (function () {
+
+/*
+	# ----- Script info:
+	- Author: Michael Mammoliti
+	- Name: jAudio.js
+	- Version: 0.2.1
+	- js dipendencies: jQuery
+	- Release date: 25 November 2015
+	- GitHub: https://github.com/MichaelMammoliti/jAudio.js
+
+	# ----- Contact info
+	- GitHub: https://github.com/MichaelMammoliti
+	- Mail: mammoliti.michael@gmail.com
+	- Twitter: @MichMammoliti
+
+	# ----- License Info
+	- Released under the GPL v3 license.
+*/
+
+    !function(t){function i(i,a){this.settings=t.extend(!0,r,a),this.$context=i,this.domAudio=this.$context.find("audio")[0],this.$domPlaylist=this.$context.find(".jAudio--playlist"),this.$domControls=this.$context.find(".jAudio--controls"),this.$domVolumeBar=this.$context.find(".jAudio--volume"),this.$domDetails=this.$context.find(".jAudio--details"),this.$domStatusBar=this.$context.find(".jAudio--status-bar"),this.$domProgressBar=this.$context.find(".jAudio--progress-bar-wrapper"),this.$domTime=this.$context.find(".jAudio--time"),this.$domElapsedTime=this.$context.find(".jAudio--time-elapsed"),this.$domTotalTime=this.$context.find(".jAudio--time-total"),this.$domThumb=this.$context.find(".jAudio--thumb"),this.currentState="pause",this.currentTrack=this.settings.defaultTrack,this.timer=void 0,this.init()}function a(t,i){for(var t=String(t);t.length<i;)t="0"+t;return t}var e="jAudio",r={playlist:[],defaultAlbum:void 0,defaultArtist:void 0,defaultTrack:0,autoPlay:!1,debug:!1};i.prototype={init:function(){var t=this;t.renderPlaylist(),t.preLoadTrack(),t.highlightTrack(),t.updateTotalTime(),t.events(),t.debug(),t.domAudio.volume=.2},play:function(){var t=this,i=t.$domControls.find("#btn-play");t.currentState="play",t.domAudio.play(),clearInterval(t.timer),t.timer=setInterval(t.run.bind(t),50),i.data("action","pause"),i.attr("id","btn-pause"),i.toggleClass("active")},pause:function(){var t=this,i=t.$domControls.find("#btn-pause");t.domAudio.pause(),clearInterval(t.timer),t.currentState="pause",i.data("action","play"),i.attr("id","btn-play"),i.toggleClass("active")},stop:function(){var t=this;t.domAudio.pause(),t.domAudio.currentTime=0,t.animateProgressBarPosition(),clearInterval(t.timer),t.updateElapsedTime(),t.currentState="stop"},prev:function(){var t,i=this;t=0===i.currentTrack?i.settings.playlist.length-1:i.currentTrack-1,i.changeTrack(t)},next:function(){var t,i=this;t=i.currentTrack===i.settings.playlist.length-1?0:i.currentTrack+1,i.changeTrack(t)},preLoadTrack:function(){var t=this;t.changeTrack(t.settings.defaultTrack),t.settings.autoPlay&&t.play()},changeTrack:function(t){var i=this;i.currentTrack=t,i.domAudio.src=i.settings.playlist[t].file,i.highlightTrack(),i.updateThumb(),i.renderDetails(),"play"===i.currentState&&i.play()},events:function(){var i=this;i.$domControls.on("click","button",function(){var a=t(this).data("action");switch(a){case"prev":i.prev.call(i);break;case"next":i.next.call(i);break;case"pause":i.pause.call(i);break;case"stop":i.stop.call(i);break;case"play":i.play.call(i)}}),i.$domPlaylist.on("click",".jAudio--playlist-item",function(){var a=t(this),e=(a.data("track"),a.index());i.currentTrack!==e&&i.changeTrack(e)}),i.$domProgressBar.on("click",function(t){i.updateProgressBar(t),i.updateElapsedTime()}),t(i.domAudio).on("loadedmetadata",function(){i.animateProgressBarPosition.call(i),i.updateElapsedTime.call(i),i.updateTotalTime.call(i)})},getAudioSeconds:function(t){var t=t%60;return t=a(Math.floor(t),2),t=60>t?t:"00"},getAudioMinutes:function(t){var t=t/60;return t=a(Math.floor(t),2),t=60>t?t:"00"},highlightTrack:function(){var t=this,i=t.$domPlaylist.children(),a="active";i.removeClass(a),i.eq(t.currentTrack).addClass(a)},renderDetails:function(){var t=this,i=t.settings.playlist[t.currentTrack],a=(i.file,i.thumb,i.trackName),e=i.trackArtist,r=(i.trackAlbum,"");r+="<p>",r+="<span>"+a+"</span>",r+="<span>"+e+"</span>",r+="</p>",t.$domDetails.html(r)},renderPlaylist:function(){var i=this,a="";t.each(i.settings.playlist,function(t,i){{var e=i.file,r=i.thumb,o=i.trackName,s=i.trackArtist;i.trackAlbum}trackDuration="00:00",a+="<div class='jAudio--playlist-item' data-track='"+e+"'>",a+="<div class='jAudio--playlist-thumb'><img src='"+r+"'></div>",a+="<div class='jAudio--playlist-meta-text'>",a+="<h4>"+o+"</h4>",a+="<p>"+s+"</p>",a+="</div>",a+="</div>"}),i.$domPlaylist.html(a)},run:function(){var t=this;t.animateProgressBarPosition(),t.updateElapsedTime(),t.domAudio.ended&&t.next()},animateProgressBarPosition:function(){var t=this,i=100*t.domAudio.currentTime/t.domAudio.duration+"%",a={width:i};t.$domProgressBar.children().eq(0).css(a)},updateProgressBar:function(t){var i,a,e,r=this;t.offsetX&&(i=t.offsetX),void 0===i&&t.layerX&&(i=t.layerX),a=i/r.$domProgressBar.width(),e=r.domAudio.duration*a,r.domAudio.currentTime=e,r.animateProgressBarPosition()},updateElapsedTime:function(){var t=this,i=t.domAudio.currentTime,a=t.getAudioMinutes(i),e=t.getAudioSeconds(i),r=a+":"+e;t.$domElapsedTime.text(r)},updateTotalTime:function(){var t=this,i=t.domAudio.duration,a=t.getAudioMinutes(i),e=t.getAudioSeconds(i),r=a+":"+e;t.$domTotalTime.text(r)},updateThumb:function(){var t=this,i=t.settings.playlist[t.currentTrack].thumb,a={"background-image":"url("+i+")","background-repeat": "no-repeat", "background-size": "100%", "max-width": "30%", "left":"36%"};t.$domThumb.css(a)},debug:function(){var t=this;t.settings.debug&&console.log(t)}},t.fn[e]=function(a){var e=function(){return new i(t(this),a)};t(this).each(e)}}(jQuery);
+
+
+
+    Polymer({
+      is: 'pod-player',
+      properties: {
+        items: {
+          type: Array,
+          notify: true,
+        }
+      },
+      ready: function() {
+        this.items = [
+          'Responsive Web App boilerplate',
+          'Iron Elements and Paper Elements',
+          'End-to-end Build Tooling (including Vulcanize)',
+          'Unit testing with Web Component Tester',
+          'Routing with Page.js',
+          'Offline support with the Platinum Service Worker Elements'
+        ];
+
+    $("#player").jAudio({
+		playlist: [{
+				file: "https://s3-us-west-2.amazonaws.com/abc-podcasts/abc-meditation-001.mp3",
+				thumb: "https://s3-us-west-2.amazonaws.com/abc-podcasts/ABC_LOGO_thumnail.png",
+		        trackName: "ABC Meditation - Starter Pack",
+				trackArtist: "ABC Meditation",
+				trackAlbum: "Singles",
+		    }]
+        });
+      }
+    });
+  })();
+</script>

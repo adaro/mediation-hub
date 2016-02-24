@@ -1,0 +1,31 @@
+<dom-module id="ajax-hubs">
+    <template items="[[ajaxResponse]]">
+        <style>
+            paper-toolbar {
+                background-color: #10C07E;
+            }
+            paper-icon-button {
+            color:white;
+            }
+        </style>
+        <iron-ajax
+            auto="true"
+            url="https://api.yelp.com/v2/search?term=food&bounds=37.900000,-122.500000|37.788022,-122.399797&limit=3"
+            handle-as="json"
+            on-response="handleResponse"
+            debounce-duration="300"></iron-ajax>
+
+        <div>[[items]]</div>
+
+    </template>
+  <script>
+    Polymer({
+      is: "ajax-hubs",
+      handleResponse: function(resp) {
+        console.log(resp, "here?")
+      }
+    });
+
+
+  </script>
+</dom-module>

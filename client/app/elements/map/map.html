@@ -1,0 +1,39 @@
+
+
+<dom-module id="map-element">
+<style>
+  google-map {
+    height: 100%;
+    width: 100%;
+
+  }
+</style>
+  <template>
+    <iron-icon icon="icons:search"></iron-icon>
+        <input is="iron-input" bind-value="{{bindValue}}" value="{{value::input}}">
+      <google-map-search map="[[map]]" query="[[bindValue]]" results="{{results}}"></google-map-search>
+    <google-map map="{{map}}" latitude="37.77493" disableZoom="true" longitude="-122.41942" fit-to-markers>
+        <template is="dom-repeat" items="{{results}}" as="marker">
+          <google-map-marker latitude="{{marker.latitude}}"
+                             longitude="{{marker.longitude}}" clickEvents="true" on-google-map-marker-click="{{markerClicked}}">
+            <h2>{{marker.name}}</h2>
+            <span>{{marker.formatted_address}}</span>
+          </google-map-marker>
+        </template>
+    </google-map>
+  </template>
+  <script>
+    Polymer({
+      is: "map-element",
+
+      markerClicked: function(e, detail, sender) {
+
+          console.log('google_map_marker_click');
+
+
+        }
+    });
+  </script>
+
+</dom-module>
+
